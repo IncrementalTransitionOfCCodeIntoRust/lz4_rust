@@ -1,0 +1,28 @@
+[workspace]
+members = [
+]
+
+[package]
+name = "lz4_rust"
+authors = ["C2Rust"]
+version = "0.0.0"
+publish = false
+edition = "2018"
+autobins = false
+
+[lib]
+name = "lz4_rust"
+path = "lib.rs"
+crate-type = ["staticlib", "rlib"]
+
+
+[[bin]]
+path = "src/programs/lz4cli.rs"
+name = "lz4cli"
+
+[dependencies]
+f128 = "0.2"
+libc = "0.2"
+
+
+
