@@ -848,7 +848,8 @@ unsafe extern "C" fn LZ4IO_openDstFile(prefs: *mut LZ4IO_prefs_t,
         }
     }
     /* sparse file */
-    (!f.is_null()) && (*prefs).sparseFileSupport != 0;
+    // todo
+
     return f;
 }
 /* **************************************
@@ -870,7 +871,7 @@ unsafe extern "C" fn LZ4IO_LZ4_compress(mut src: *const libc::c_char,
                                         mut dst: *mut libc::c_char,
                                         mut srcSize: libc::c_int,
                                         mut dstSize: libc::c_int,
-                                        mut cLevel: libc::c_int)
+                                        mut _cLevel: libc::c_int)
  -> libc::c_int {
     return LZ4_compress_fast(src, dst, srcSize, dstSize, 1 as libc::c_int);
 }
@@ -2884,7 +2885,7 @@ unsafe extern "C" fn LZ4IO_decompressSrcFile(prefs: *mut LZ4IO_prefs_t,
                                              mut ress: dRess_t,
                                              mut input_filename:
                                                  *const libc::c_char,
-                                             mut output_filename:
+                                             mut _output_filename:
                                                  *const libc::c_char)
  -> libc::c_int {
     let foutput: *mut FILE = ress.dstFile;

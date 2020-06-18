@@ -1348,7 +1348,7 @@ unsafe extern "C" fn LZ4F_compressBlock_continue(mut ctx: *mut libc::c_void,
                                                  mut srcSize: libc::c_int,
                                                  mut dstCapacity: libc::c_int,
                                                  mut level: libc::c_int,
-                                                 mut cdict: *const LZ4F_CDict)
+                                                 mut _cdict: *const LZ4F_CDict)
  -> libc::c_int {
     let acceleration: libc::c_int =
         if level < 0 as libc::c_int {
@@ -1381,8 +1381,8 @@ unsafe extern "C" fn LZ4F_compressBlockHC_continue(mut ctx: *mut libc::c_void,
                                                    mut srcSize: libc::c_int,
                                                    mut dstCapacity:
                                                        libc::c_int,
-                                                   mut level: libc::c_int,
-                                                   mut cdict:
+                                                   mut _level: libc::c_int,
+                                                   mut _cdict:
                                                        *const LZ4F_CDict)
  -> libc::c_int {
     /* init once at beginning of frame */
@@ -1605,7 +1605,7 @@ pub unsafe extern "C" fn LZ4F_compressUpdate(mut cctxPtr: *mut LZ4F_cctx,
 pub unsafe extern "C" fn LZ4F_flush(mut cctxPtr: *mut LZ4F_cctx,
                                     mut dstBuffer: *mut libc::c_void,
                                     mut dstCapacity: size_t,
-                                    mut compressOptionsPtr:
+                                    mut _compressOptionsPtr:
                                         *const LZ4F_compressOptions_t)
  -> size_t {
     let dstStart: *mut BYTE = dstBuffer as *mut BYTE; /* nothing to flush */
@@ -2293,7 +2293,7 @@ pub unsafe extern "C" fn LZ4F_decompress(mut dctx: *mut LZ4F_dctx,
                              libc::c_ulong).wrapping_sub(sizeToCopy_1) as
                             size_t as size_t; /* need to copy more */
                     nextSrcSizeHint =
-                        (*dctx).tmpInTarget.wrapping_add((if (*dctx).frameInfo.blockChecksumFlag
+                        (*dctx).tmpInTarget.wrapping_add(if (*dctx).frameInfo.blockChecksumFlag
                                                                  as
                                                                  libc::c_uint
                                                                  != 0 {
@@ -2302,7 +2302,7 @@ pub unsafe extern "C" fn LZ4F_decompress(mut dctx: *mut LZ4F_dctx,
                                                               0 as libc::c_int
                                                                   as
                                                                   libc::c_ulong
-                                                          })).wrapping_add(BHSize); /* next header size */
+                                                          }).wrapping_add(BHSize); /* next header size */
                     doAnotherStage = 0 as libc::c_int as libc::c_uint
                 }
                 current_block_212 = 4309244811846205759;
@@ -2401,7 +2401,7 @@ pub unsafe extern "C" fn LZ4F_decompress(mut dctx: *mut LZ4F_dctx,
                 if (*dctx).tmpInSize < (*dctx).tmpInTarget {
                     /* need more input */
                     nextSrcSizeHint =
-                        (*dctx).tmpInTarget.wrapping_sub((*dctx).tmpInSize).wrapping_add((if (*dctx).frameInfo.blockChecksumFlag
+                        (*dctx).tmpInTarget.wrapping_sub((*dctx).tmpInSize).wrapping_add(if (*dctx).frameInfo.blockChecksumFlag
                                                                                                  as
                                                                                                  libc::c_uint
                                                                                                  !=
@@ -2414,7 +2414,7 @@ pub unsafe extern "C" fn LZ4F_decompress(mut dctx: *mut LZ4F_dctx,
                                                                                                   libc::c_int
                                                                                                   as
                                                                                                   libc::c_ulong
-                                                                                          })).wrapping_add(BHSize); /* next header size */
+                                                                                          }).wrapping_add(BHSize); /* next header size */
                     doAnotherStage =
                         0 as libc::c_int as
                             libc::c_uint; /* incorrect frame size decoded */

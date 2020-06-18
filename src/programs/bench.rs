@@ -526,7 +526,7 @@ unsafe extern "C" fn LZ4_compressInitStreamHC(mut pThis:
     LZ4_loadDictHC((*pThis).LZ4_dictStreamHC, (*pThis).dictBuf,
                    (*pThis).dictSize);
 }
-unsafe extern "C" fn LZ4_compressResetNoStream(mut pThis:
+unsafe extern "C" fn LZ4_compressResetNoStream(mut _pThis:
                                                    *const compressionParameters) {
 }
 unsafe extern "C" fn LZ4_compressResetStream(mut pThis:
@@ -586,7 +586,7 @@ unsafe extern "C" fn LZ4_compressBlockStreamHC(mut pThis:
     return LZ4_compress_HC_continue((*pThis).LZ4_streamHC, src, dst, srcSize,
                                     dstSize);
 }
-unsafe extern "C" fn LZ4_compressCleanupNoStream(mut pThis:
+unsafe extern "C" fn LZ4_compressCleanupNoStream(mut _pThis:
                                                      *const compressionParameters) {
 }
 unsafe extern "C" fn LZ4_compressCleanupStream(mut pThis:

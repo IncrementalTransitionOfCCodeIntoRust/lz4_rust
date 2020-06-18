@@ -573,8 +573,6 @@ unsafe extern "C" fn XXH32_finalize(mut h32: U32,
                   346 as libc::c_int as libc::c_uint,
                   (*::std::mem::transmute::<&[u8; 76],
                                             &[libc::c_char; 76]>(b"U32 XXH32_finalize(U32, const void *, size_t, XXH_endianess, XXH_alignment)\x00")).as_ptr());
-    return h32;
-    /* reaching this point is deemed impossible */
 }
 #[inline(always)]
 unsafe extern "C" fn XXH32_endian_align(mut input: *const libc::c_void,
@@ -1681,8 +1679,6 @@ unsafe extern "C" fn XXH64_finalize(mut h64: U64,
                   806 as libc::c_int as libc::c_uint,
                   (*::std::mem::transmute::<&[u8; 76],
                                             &[libc::c_char; 76]>(b"U64 XXH64_finalize(U64, const void *, size_t, XXH_endianess, XXH_alignment)\x00")).as_ptr());
-    return 0 as libc::c_int as U64;
-    /* unreachable, but some compilers complain without it */
 }
 #[inline(always)]
 unsafe extern "C" fn XXH64_endian_align(mut input: *const libc::c_void,

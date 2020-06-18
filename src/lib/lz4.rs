@@ -770,9 +770,12 @@ unsafe extern "C" fn LZ4_compress_generic(cctx: *mut LZ4_stream_t_internal,
            inputSize >= LZ4_64Klimit {
         return 0 as libc::c_int
     } /* Size too large (not within 64K limit) */
-    (tableType as libc::c_uint) ==
-        byPtr as libc::c_int as
-            libc::c_uint; /* only supported use case with byPtr */
+    if (tableType as libc::c_uint) == byPtr as libc::c_int as libc::c_uint {
+        assert!(dictDirective == noDict)
+    } /* only supported use case with byPtr */
+
+    assert!(acceleration >= 1);
+
     lowLimit =
         (source as
              *const BYTE).offset(-((if dictDirective as libc::c_uint ==
@@ -1769,7 +1772,7 @@ unsafe extern "C" fn LZ4_compress_destSize_extState(mut state:
                                                     mut targetDstSize:
                                                         libc::c_int)
  -> libc::c_int {
-    let s: *mut libc::c_void =
+    let _s: *mut libc::c_void =
         LZ4_initStream(state as *mut libc::c_void,
                        ::std::mem::size_of::<LZ4_stream_t>() as libc::c_ulong)
             as *mut libc::c_void;
@@ -1828,7 +1831,7 @@ pub unsafe extern "C" fn LZ4_createStream() -> *mut LZ4_stream_t {
                      it reports an aligment of 8-bytes,
                      while actually aligning LZ4_stream_t on 4 bytes. */
 unsafe extern "C" fn LZ4_stream_t_alignment() -> size_t {
-    let mut t_a: C2RustUnnamed =
+    let mut _t_a: C2RustUnnamed =
         C2RustUnnamed{c: 0, t: LZ4_stream_u{table: [0; 2052],},};
     return (::std::mem::size_of::<C2RustUnnamed>() as
                 libc::c_ulong).wrapping_sub(::std::mem::size_of::<LZ4_stream_t>()
@@ -2315,7 +2318,9 @@ unsafe extern "C" fn LZ4_decompress_generic(src: *const libc::c_char,
     } else {
         /* Fast loop : decode sequences as long as output < iend-FASTLOOP_SAFE_DISTANCE */
         loop  {
-            (endOnInput as u64) != 0;
+            if endOnInput as u64 != 0 {
+                assert!(ip < iend)
+            };
             let fresh14 = ip;
             ip = ip.offset(1);
             token = *fresh14 as libc::c_uint;
@@ -3725,14 +3730,14 @@ pub unsafe extern "C" fn LZ4_sizeofStreamState() -> libc::c_int {
 }
 #[no_mangle]
 pub unsafe extern "C" fn LZ4_resetStreamState(mut state: *mut libc::c_void,
-                                              mut inputBuffer:
+                                              mut _inputBuffer:
                                                   *mut libc::c_char)
  -> libc::c_int {
     LZ4_resetStream(state as *mut LZ4_stream_t);
     return 0 as libc::c_int;
 }
 #[no_mangle]
-pub unsafe extern "C" fn LZ4_create(mut inputBuffer: *mut libc::c_char)
+pub unsafe extern "C" fn LZ4_create(mut _inputBuffer: *mut libc::c_char)
  -> *mut libc::c_void {
     return LZ4_createStream() as *mut libc::c_void;
 }

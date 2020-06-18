@@ -717,7 +717,7 @@ unsafe extern "C" fn LZ4HC_InsertAndGetWiderMatch(mut hc4:
                     }
                     /* Limit backLength not go further than lowestMatchIndex */
                     backLength =
-                        matchCandidateIdx.wrapping_sub((if matchCandidateIdx.wrapping_sub(backLength
+                        matchCandidateIdx.wrapping_sub(if matchCandidateIdx.wrapping_sub(backLength
                                                                                               as
                                                                                               U32)
                                                                >
@@ -728,7 +728,7 @@ unsafe extern "C" fn LZ4HC_InsertAndGetWiderMatch(mut hc4:
                                                                                                U32)
                                                         } else {
                                                             lowestMatchIndex
-                                                        })) as size_t;
+                                                        }) as size_t;
                     currentSegmentLength =
                         backLength.wrapping_add(forwardPatternLength);
                     /* Adjust to end of pattern if the source pattern fits, otherwise the beginning of the pattern */
@@ -1936,7 +1936,7 @@ pub unsafe extern "C" fn LZ4_sizeofStateHC() -> libc::c_int {
                    * it reports an aligment of 8-bytes,
                    * while actually aligning LZ4_streamHC_t on 4 bytes. */
 unsafe extern "C" fn LZ4_streamHC_t_alignment() -> size_t {
-    let mut t_a: C2RustUnnamed_1 =
+    let mut _t_a: C2RustUnnamed_1 =
         C2RustUnnamed_1{c: 0, t: LZ4_streamHC_u{table: [0; 32775],},};
     return (::std::mem::size_of::<C2RustUnnamed_1>() as
                 libc::c_ulong).wrapping_sub(::std::mem::size_of::<LZ4_streamHC_t>()

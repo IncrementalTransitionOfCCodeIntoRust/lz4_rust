@@ -3,6 +3,7 @@
 #![register_tool(c2rust)]
 #![feature(const_raw_ptr_to_usize_cast, extern_types, label_break_value, main,
            ptr_wrapping_offset_from, register_tool)]
+#[allow(unused_imports)]
 use ::lz4_rust::*;
 extern "C" {
     pub type _IO_wide_data;
